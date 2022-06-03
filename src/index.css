@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.header{
+  background-image: url("images/fate.jpg");
+  background-size: cover;
+  /* 1st one adds space to the top and bottom
+  2ns adds space to the left and right */
+  padding: 0px 0px;
+  max-width: 500px;
+  min-height: 100px;
+  cursor:pointer;
+  border: 1px solid red;
+  /* curves the edges of the component, curve enough and it will return a oval/circle */
+  border-radius: 5px;
+}
+
+/* .image{
+  background-image:  url(`images/${}`);
+} */
+
+.container{
+  /* background-position-y: -20px; */
+  /* this creates a perimeter BLANK BORDER SPACE around the component */
+  /* AUTO will center it */
+  background-color:beige;
+  margin: auto;
+  align-content: center;
+  max-width: 500px;
+  max-height: 1000px;
+  padding: 5px 100px;
+  overflow: auto;
+  border: 1px solid black;
+}
+
+.searchBar input{
+  display:flex;
+  width : 410px
+}
+
+.container2{
+  margin: 10px;
+  display:flex;
+
+}
+
+.hub{
+  width:200px;
+  
+  
+}
+.anime{
+    width: 300px;
+    margin: 5px;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.anime h3{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comment {
+  width: 200px;
+}
