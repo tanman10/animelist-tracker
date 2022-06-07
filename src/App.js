@@ -6,116 +6,163 @@ import Hub from './components/Hub';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Edit from './components/Edit';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
 
-function App() {
+function App() { 
+  /*
+    objects should contain the following attributes
+    .id 
+    .name
+    .score
+    .comment
+    .favorite
+    .image
+  */
 
-  const [text, setText] = useState([])
+  const[objList, setObjList] = useState([]) // objList holds all objects from database
 
-  useEffect(()=> { // useEffect, want this to happen when the page loads
+  /* 
+    useEffect, occurs when the page loads
+    set obj to objects from the database
+  */ 
+  useEffect(()=> { 
     const getAnime = async() => {
-      const tasksFromServer = await myFetchTasks('http://localhost:5000/posts') // we need to await any promise
-      setText(tasksFromServer) 
+      const animeFromDatabase = await myFetchAnime('http://localhost:5000/posts')
+      setObjList(animeFromDatabase) 
     }
     getAnime()
-  }, []) //dependency arry added here for some reason
+  }, []) // dependency arry added here so useEffect is only called ONCE
 
-  const myFetchTasks = async (link) => {
-    const res = await fetch(link) //fetch (builtin) returns a promise 
+
+  /*
+    helper function
+    get the objects (animes) from the database
+  */
+  const myFetchAnime = async (link) => {
+    const res = await fetch(link) 
     const data = await res.json()
     return data
   }
 
-  const addAnime = async (texts) => {
+  /* 
+    add anime to list
+  */
+  const addAnime = async (newObject) => {
     const res = await fetch('http://localhost:5000/posts', {
       method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(texts)
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(newObject)
     })
     const data = await res.json()
-    setText([...text,data])
+    setObjList([...objList,data])
   }
 
+  /*
+    delete anime from list
+  */
   const deleteAnime = async (id) => {
+    console.log(id)
     await fetch(`http://localhost:5000/posts/${id}`, {
       method: 'Delete'
     })
-    setText(text.filter((anime)=> anime.id !== id))
+    setObjList(objList.filter((anime)=> anime.id !== id))
   }
 
-  const deleteAll = async (text) => {
-    // console.log(text)
-    // await text.map((ani)=> (
-    //   console.log(ani.id),
-    //   deleteALL2(ani.id)
-    // ))
-    // setText([])
-  }
-
-  const deleteALL2 = async (id) => {
-    // await fetch(`http://localhost:5000/posts/${id}`, {
-    //     method: 'Delete'
-    //   })  
-  }
-
-  const reset = async (text) => {
-    // deleteAll(text)
-    // addAnime({ id: 1, name: 'One Piece', score: 10, comment: '', favorite: true,})
-    // addAnime({ id: 2, name: 'Naruto', score: 10, comment: '', favorite: true,})
-    // addAnime({ id: 3, name: 'Bleach', score: 10, comment: '', favorite: true,})
-  }
-
+  /* 
+    change the interface to list the anime 
+    sorted anime by name then id.
+    database order doesn't change
+    uses ASCII so A < ... < Z < a < ... < z
+  */
   const sortAnime = async () => {
-    const tasksFromServer = await myFetchTasks('http://localhost:5000/posts?_sort=name,id') // comma to use 2nd sort
-    setText(tasksFromServer)// sorting does not persist in the backend 
+    const animeFromDatabase = await myFetchAnime('http://localhost:5000/posts?_sort=name,id') 
+    setObjList(animeFromDatabase)
   }
 
+
+
+  /* 
+    change the interface to list the anime 
+    with 'word' in there name.
+    database order doesn't change
+  */
   const searchAnime = async (word) => {
-    const tasksFromServer = await myFetchTasks(`http://localhost:5000/posts?name_like=${word}`) // comma to use 2nd sort
-    setText(tasksFromServer)
+    const animeFromDatabase = await myFetchAnime(`http://localhost:5000/posts?name_like=${word}`) 
+    setObjList(animeFromDatabase)
   }
 
 
-  const onLike = async (id) => {
-    const taskToToggle = await myFetchAnime(id)
-    const updTask = {...taskToToggle, favorite: !taskToToggle.favorite}
+  /* 
+    toggle the favorite attribute for anime with id (like button)
+  */
+  const toggleLike = async (id) => {
+    const animeToToggle = await myFetchAnime(`http://localhost:5000/posts/${id}`)
+    const updAnime = {...animeToToggle, favorite: !animeToToggle.favorite}
     const res = await fetch(`http://localhost:5000/posts/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(updTask)
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(updAnime)
     })
     const data = await res.json()
   
-    setText(text.map((task)=>
-      task.id === id ? {...task,favorite : data.favorite} : task))
+    setObjList(objList.map((anime)=>
+      anime.id === id ? {...anime,favorite : data.favorite} : anime))
   }
   
-  const myFetchAnime = async (id) => {
-    const res = await fetch(`http://localhost:5000/posts/${id}`) 
-    const data = await res.json()
-    return data
-  }
 
-
-  const editAnime = async (array) => {
-    const id = array.num
-    const taskToToggle = await myFetchAnime(id)
-    const updTask = {...taskToToggle, name: array.name, rate: array.rate, comment: array.comment, favorite: array.favorite, image: array.image}
+  /* 
+    update anime list
+  */
+  const editAnime = async (newObject) => {
+    const id = newObject.num
+    //update backend
+    const animeToUpdate = await myFetchAnime(`http://localhost:5000/posts/${id}`)
+    const upatedAnime = {...animeToUpdate, name: newObject.name, score: newObject.score, 
+      comment: newObject.comment, favorite: newObject.favorite, image: newObject.image}
     const res = await fetch(`http://localhost:5000/posts/${id}`, {
       method: 'PUT',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(updTask)
+      headers: {'Content-type': 'application/json'},
+      body: JSON.stringify(upatedAnime)
     })
     const data = await res.json()
-  
-    setText(text.map((task)=>
-      task.id === id ? {...task, name: data.name, rate: data.rate, comment: data.comment, favorite : data.favorite, image: data.image} : task))
+    /* update front end */
+    setObjList(objList.map((anime)=>
+      anime.id === id ? {...anime, name: data.name, rate: data.rate, 
+        comment: data.comment, favorite : data.favorite, image: data.image} : anime))
+
+    /* to update the interface */
+    const getAnime = async() => {
+      const tasksFromServer = await myFetchAnime('http://localhost:5000/posts') 
+      setObjList(tasksFromServer) 
+    }
+    getAnime()
   }
+  
+
+  /*
+    notifications
+  */
+  const createNotification = (type) => {
+    return () => {
+      switch (type) {
+        case 'info':
+          NotificationManager.info('Info message');
+          break;
+        case 'success':
+          NotificationManager.success('Success message', 'Title here');
+          break;
+        case 'warning':
+          NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+          break;
+        case 'error':
+          NotificationManager.error('Error message', 'Click me!', 5000, () => {
+            alert('callback');
+          });
+          break;
+      }
+    };
+  };
+
 
 
   return (
@@ -126,9 +173,9 @@ function App() {
           <Route path = '/' element = {
             <>
               <SearchBar onSearch = {searchAnime}></SearchBar>
-              <div className='container2'>
-                <Hub text = {text} onAdd = {addAnime} onDelete = {deleteAll} onReset = {reset} onSort = {sortAnime}></Hub>
-                <AnimeList text = {text} onDelete = {deleteAnime} onLike = {onLike} ></AnimeList>
+              <div className='containerHubAndAnimeList'>
+                <Hub objList = {objList} onAdd = {addAnime} onSort = {sortAnime}></Hub>
+                <AnimeList objList = {objList} onDelete = {deleteAnime} onLike = {toggleLike} ></AnimeList>
               </div>
             </>
           }/>

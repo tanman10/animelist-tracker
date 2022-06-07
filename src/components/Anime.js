@@ -1,21 +1,41 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
-const Anime = ({text, onDelete, onLike}) => {
-  
+const Anime = ({anime, onDelete, onLike}) => {
+  const [show, setShow] = useState(false)
+  const [color, setColor] = useState('white')
+  const [size, setSize] = useState('14')
   return (
     <div 
-      style = {{width: '300px', backgroundSize: 'cover', backgroundImage: `url(${text.image})`}}
-    >
-      <h3 style = {{display:'flex', alignItems: 'center', justifyContent: 'space-between'}}> {/*this uses .anime h3 style */}
-        {/* https://dreamyguy.github.io/react-emojis/ */}
-        <button onClick={()=>onLike(text.id)}> {text.favorite ? "👍" : "👎" }</button>
-        {text.name}
-        <button onClick={()=>onDelete(text.id)}> Delete </button> {/* putting the delete here puts it in a different place on interface*/}
+      className='anime' 
+      onMouseEnter={()=>setShow(true)} onMouseLeave={()=>setShow(false)}
+      style = {{ backgroundSize: 'cover', backgroundImage: `url(${anime.image})`}}
+    > 
+      {/* like-name-delete header bar of anime */}
+      <h3> 
+        <button 
+          style ={{cursor : 'pointer', fontSize: `${size}px`}} 
+          className = "likeButton" 
+          onMouseEnter={()=>setSize('20')} onMouseLeave={()=>setSize('14')} 
+          onClick={()=>onLike(anime.id)}
+        > 
+        {anime.favorite ? "👍" : "👎" } {/* https://dreamyguy.github.io/react-emojis/ */}
+        </button>
+        {anime.name}
+        <button 
+          style ={{cursor : 'pointer', backgroundColor: color}} 
+          onMouseEnter={()=>setColor('red')} onMouseLeave={()=>setColor('white')} 
+          className = "deleteButton" 
+          onClick={()=>onDelete(anime.id)}
+        > Delete 
+        </button> 
       </h3>
-      <p>{text.score} / 10</p>
-      <p>{text.comment ? text.comment : "no comment"}</p>
-      <p> <Link to ={`/posts/${text.id}`}> Edit Details</Link> </p>
-      {/* <img style ={{height:'200px'}} src= {text.image}/>  */}
+      <Link to ={`/posts/${anime.id}`}> 
+        {/* score/comment portion of anime */}
+        {!show && <h1><br></br></h1>}
+        <p>{anime.score} / 10 </p>
+        {show && <h4>{anime.comment}</h4>}
+      </Link> 
     </div>
   )
 }

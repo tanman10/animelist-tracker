@@ -1,12 +1,21 @@
 import Anime from "./Anime"
 
-const AnimeList = ({text, onDelete, onLike}) => {
+const AnimeList = ({objList, onDelete, onLike}) => {
+
+  /*decomposes list of objects into individual objects */
   return (
-    <div>
+    <div className= "containerAnimeListAndTitle">
       <h1>Your Anime List</h1>
-      {text.map((ani)=> (
-        <Anime key = {ani.id} text = {ani} onDelete = {onDelete} onLike = {onLike}></Anime>
-      ))}
+      <div className= "containerAnimeList">  
+        {objList.map((obj)=> (
+          <Anime 
+            key = {obj.id} 
+            anime = {obj} 
+            onDelete = {onDelete} 
+            onLike = {onLike}>
+          </Anime>
+        ))}
+      </div>
     </div>
   )
 }

@@ -12,67 +12,265 @@ code {
     monospace;
 }
 
-.header{
-  background-image: url("images/fate.jpg");
-  background-size: cover;
-  /* 1st one adds space to the top and bottom
-  2ns adds space to the left and right */
-  padding: 0px 0px;
-  max-width: 500px;
-  min-height: 100px;
-  cursor:pointer;
-  border: 1px solid red;
-  /* curves the edges of the component, curve enough and it will return a oval/circle */
-  border-radius: 5px;
-}
 
-/* .image{
-  background-image:  url(`images/${}`);
-} */
+
+
+
+
+/* https://yoksel.github.io/flex-cheatsheet/ */
+
+
+
+
+
 
 .container{
   /* background-position-y: -20px; */
-  /* this creates a perimeter BLANK BORDER SPACE around the component */
-  /* AUTO will center it */
   background-color:beige;
-  margin: auto;
+  /* centers the container with the entire webpage regardless of tab size*/
+  /* if ommited container will start at the right*/
+  margin: auto; 
   align-content: center;
-  max-width: 500px;
-  max-height: 1000px;
+  width: 500px; 
+  /* when I change this to 600px the right side is larger than the left and I don't know why */
+  height: fit-content;
+  /* put 5px of space at top and bot of content 
+    will put 100px of space at left and right*/
   padding: 5px 100px;
-  overflow: auto;
   border: 1px solid black;
 }
 
-.searchBar input{
-  display:flex;
-  width : 410px
-}
+  .header{
+    background-image: url("images/fate.jpg");
+    background-size: cover;
+    padding: 0px 0px;
+    max-width: 500px;
+    min-height: 100px;
+    cursor:pointer;
+    border: 1px solid red;
+    border-radius: 5px;
+  }
 
-.container2{
-  margin: 10px;
-  display:flex;
+  .containerSearch{
+    width: fit-content;
+    margin-top: 5px;
+    display:flex;
+    border: 2px solid black;
+    border-radius: 5px;
+    /*  */
+    background-color: white;
+  }
+    .searchBar input{
+      height: 20px;
+      width: 450px;
+      /* hides the search bar outline (border) when not clicked */
+      border: none;
+      /* hides the search bar outline (border) when clicked */
+      outline: none;
+    }
 
-}
+  .containerHubAndAnimeList{
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+  }
 
-.hub{
-  width:200px;
-  
-  
-}
-.anime{
-    width: 300px;
-    margin: 5px;
-    padding: 5px 20px;
-    cursor: pointer;
-}
+    .containerHub{
+      width: 200px;
+      padding-right: 10px;
+      align-items: stretch;
+      /* needed for self-align later */
+      display: flex;
+      flex-direction: column;
+    }
+      .containerAdd{
+        width: 200px;
+      }
+        .containerAdd form{
+          display: flex;
+          flex-direction: column;
+        }
+        .containerAdd form input[type='text']{
+          margin-top: 5px;
+        }
+        .containerAdd form textarea{
+          margin-top: 5px;
+        }
+        .containerAdd form input[type='file']{
+          margin-top: 5px;
+          margin-bottom: 5px;
+          color: transparent;
+        }
+        .containerAdd form img [src='']{
+          width: 200px;
+          height: 100px;
+          display: none;
+        }
+        .containerAdd form input[type='submit']{
+          height:40px;
+        }
+        .containerAdd form button{
+          margin-top: 5px;
+          margin-bottom: 5px;
+        }
 
-.anime h3{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+      .containerEdit{
+        width:200px;
+        display: flex;
+        flex-direction: column
+      }
+        .containerEdit h3{
+          margin-bottom: 0px;
+          /* 
+            h3 seem to have a margin-top and
+            margin-bottom of 10px by default
+             or something 
+          */
+        }
+        .containerEdit p{
+          margin-bottom: 0px;
+          margin-top: 0px
+          /* 
+            p seem to have a margin-top and
+            margin-bottom of 10px by default
+             or something 
+          */
+        }
+        .containerEdit button{
+          margin-bottom: 5px;
+          margin-top:5px;
+          height:40px;
+        }
+        .containerEdit form{
+          display: flex;
+          flex-direction: column;
+        }
+        .containerEdit form h3{
+          margin-bottom: 0;
+        }
+        .containerEdit form input[type='text']{
+          margin-top: 5px;
+        }
+        .containerEdit form textarea{
+          margin-top: 5px;
+        }
+        .containerEdit form input[type='file']{
+          margin-top: 5px;
+          margin-bottom: 5px;
+          color: transparent;
+        }
+        .containerEdit form img [src='']{
+          width: 200px;
+          height: 100px;
+          display: none;
+        }
+        .containerEdit form input[type='submit']{
+          height:40px;
+        }
+        .containerEdit form button{
+          margin-top: 5px;
+          margin-bottom: 5px;
+          height:20px;
+        }
 
-.comment {
-  width: 200px;
-}
+      .containerHub h3{
+        color: red;
+        align-self: center;
+        
+      }
+      .test{
+        background-color: yellow;
+      }
+      .containerHub h6{
+        margin-top: 0;
+      }
+    
+    .containerAnimeListAndTitle{
+      display: flex;
+      flex-direction: column;
+    }
+      .containerHubAndAnimeList h1{
+        align-self: center;
+        margin-bottom: 0px;
+      }
+
+      /* padding and margin only affect the box */
+      .containerAnimeList{ 
+        border: 1px solid black;
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        padding-top:5px;
+        width: fit-content;
+        height: 600px;
+        overflow-y: scroll;
+      }
+        .containerAnimeList::-webkit-scrollbar{
+          display: none;
+        }
+        .anime{
+          border: 1px hidden;  /*actually necessary or margin/pad don't respond properly*/
+          margin-bottom: 5px;
+          width: 300px;
+          height: 150px;
+          display: cover;
+        }
+        /* idky the following elements below aren't inheriting
+        i thought i made them pseudo elements*/
+
+        .anime h3{
+          margin-top: 0px;  /*actually necesary or it puts like margin-top 10px by default*/
+          color:white;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background-color: rgba(0,0,0,0.60);
+        }
+          .deleteButton{
+            border-radius: 5px;
+            border: none;
+            margin-right: 5px;
+          }
+          
+          .likeButton{
+            border-radius: 5px;
+            border: none;
+            margin-left: 5px;
+            background: none;
+          }
+        .anime p{
+          padding-bottom: 5px;
+          color:yellow;
+          font-size:x-large;
+          font-weight: 900;
+          background-color: rgba(0,0,0,0.60);
+        }
+
+        .anime h4{
+          margin-top: -24px;
+          height: 63px;
+          background-color: rgba(0,0,0,0.60);
+          color: white;
+          overflow-y: scroll;
+          font-weight: 300;
+        }
+
+        .anime h4::-webkit-scrollbar{
+          display: none;
+        }
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+

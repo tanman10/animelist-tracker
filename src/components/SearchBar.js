@@ -9,14 +9,14 @@ const SearchBar = ({onSearch}) => {
     }
 
     return (
-        <form className ='container2' onSubmit={onSubmit}>
+        <form className ='containerSearch' onSubmit={onSubmit}>
             <div className = "searchBar">
                 <input type = 'text' placeholder="search anime name"
                 value = {text}
                 onChange={(e)=> setText(e.target.value)}
                 />
             </div>
-            <input type = 'submit' value = 'Enter'/>
+            <input style={{border: 'none'}} type = 'submit' value = 'Enter'/>
         </form>
     )
 }
