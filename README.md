@@ -7,7 +7,7 @@ didn't implement the notification yet
 1st attempt at fullstack app,
 uses J-son server as pseudo back-end
 
-Functions
+Functions:
   Add anime
   Delete anime
   Edit anime
