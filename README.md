@@ -1,25 +1,25 @@
-#npm run server
+npm run server
 
-#npm start
+npm start
 
-#didn't implement the notification yet
+didn't implement the notification yet
 
-#1st attempt at fullstack app,
-#uses J-son server as pseudo back-end
+1st attempt at fullstack app,
+uses J-son server as pseudo back-end
 
-#Functions:
+Functions:
 
-  Add anime
+  #Add anime
   
-  Delete anime
+  #Delete anime
   
-  Edit anime
+  #Edit anime
   
-  Like
+  #Like
   
-  Search
+  #Search
   
-  Sort by name
+  #Sort by name
   
-  Anime list uses scrollbar
+  #Anime list uses scrollbar
   
