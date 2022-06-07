@@ -8,11 +8,18 @@ didn't implement the notification yet
 uses J-son server as pseudo back-end
 
 Functions:
+
   Add anime
+  
   Delete anime
+  
   Edit anime
+  
   Like
+  
   Search
+  
   Sort by name
+  
   Anime list uses scrollbar
   
